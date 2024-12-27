@@ -3,10 +3,10 @@ import { NotesStore } from '../models/NotesStore'
 import { Note } from '../models/Note'
 import { Section } from '../models/Section'
 
-export const getNotesStore = create<NotesStore>((set, get) => ({
+export const getNotesStore = create<NotesStore>(set => ({
   notes: [
     {
-      title: '✂️ Hair ',
+      title: '✂️ Hair',
       content: `Mid Fade redondo, patillas rectas, flequillo arriba de las cejas, englobado, degrade compacto al 0, flequillo arriba de la frente
 
 Me gustaría un mid fade bien englobado, con las patillas rectas y el flequillo arriba de las cejas, y la parte de atras recta.`,
@@ -65,14 +65,14 @@ PROJECTS
       id: 1
     }
   ],
-  getNotes: () => get().notes,
   setNotes: (newNotes: Note[]) => set({ notes: newNotes }),
 
+  trash: [],
+  setTrash: (newTrash: Note[]) => set({ trash: newTrash }),
+
   fullNote: null,
-  getFullNote: () => get().fullNote,
   setFullNote: (newFullNote: Note | null) => set({ fullNote: newFullNote }),
 
   section: 'notes',
-  getSection: () => get().section,
   setSection: (newSection: Section) => set({ section: newSection })
 }))

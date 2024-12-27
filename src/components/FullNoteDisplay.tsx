@@ -7,13 +7,13 @@ interface FullNoteDisplayProps {
 }
 
 export function FullNoteDisplay ({ noteToDisplay }: FullNoteDisplayProps) {
-  const { setFullNote, notes, setNotes, deleteNote } = useNotes()
+  const { setFullNote, notes, setNotes, removeNote } = useNotes()
   const fullNoteContainerRef = useRef<null | HTMLDivElement>(null)
   const contentTextareaRef = useRef<HTMLTextAreaElement>(null)
   const titleInputRef = useRef<HTMLInputElement>(null)
 
-  const handleDelete = (): void => {
-    deleteNote(noteToDisplay.id)
+  const handleRemove = (): void => {
+    removeNote(noteToDisplay)
   }
 
   const handleTitleInput = useCallback(
@@ -97,7 +97,7 @@ export function FullNoteDisplay ({ noteToDisplay }: FullNoteDisplayProps) {
         <footer className='w-full h-[70px] place-content-center grid grid-cols-[3fr,1fr] p-[2px] shadow-[0px_-5px_8px_0px_#0002]'>
           <div className='w-full h-full flex justify-start'>
             <button
-              onClick={handleDelete}
+              onClick={handleRemove}
               className='hover:bg-[#fff1] px-[15px] py-[3px] w-fit rounded-[5px]'
             >
               Delete

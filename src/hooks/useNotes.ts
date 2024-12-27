@@ -4,35 +4,65 @@ import { getNotesStore } from '../stores/getNotesStore'
 
 export function useNotes () {
   const notesStore: NotesStore = getNotesStore()
-  const { setNotes, getNotes, setFullNote, notes } = notesStore
+  const { setNotes, notes, trash, setTrash } = notesStore
 
-  const orderNotesIndexes = (notesToOrder: Note[]): void => {
-    notesToOrder.map((newNote, index) => (newNote.id = index))
-    setNotes(notesToOrder)
-  }
+  const createNote = (title?: string, content: string = ''): void => {
+    let newNote: Note
 
-  const deleteNote = (noteId: number): void => {
-    const newNotes = getNotes().filter(note => note.id !== noteId)
-
-    orderNotesIndexes(newNotes)
-    setNotes(newNotes)
-    setFullNote(null)
-  }
-
-  const createNote = (newNote?: Note): void => {
-    const newNotes = [...notes]
-
-    if (newNote) {
-      newNotes.push(newNote)
+    if (title) {
+      newNote = {
+        title,
+        content,
+        id: notes.length
+      }
     } else {
-      newNotes.push({ title: '', content: '', id: notes.length })
+      newNote = {
+        title: 'New Note',
+        content: '',
+        id: notes.length
+      }
     }
 
-    orderNotesIndexes(newNotes)
-    setNotes(newNotes)
+    const updatedNotes = [...notes, newNote]
+
+    updateIndexes(updatedNotes)
+    setNotes([...notes, newNote])
   }
 
-  
+  const removeNote = (note: Note): void => {
+    const updatedNotes: Note[] = notes.filter(n => n.id !== note.id)
+    const updatedTrash: Note[] = [...trash, note]
 
-  return { ...notesStore, deleteNote, createNote }
+    updateIndexes(updatedNotes)
+    updateIndexes(updatedTrash)
+
+    setNotes(updatedNotes)
+    setTrash(updatedTrash)
+  }
+
+  const deleteNote = (note: Note): void => {
+    const updatedTrash: Note[] = trash.filter(n => n.id !== note.id)
+
+    updateIndexes(updatedTrash)
+    setTrash(updatedTrash)
+  }
+
+  const recoverNote = (note: Note): void => {
+    const updatedNotes: Note[] = [...notes, note]
+    const updatedTrash: Note[] = trash.filter(n => n.id !== note.id)
+
+    updateIndexes(updatedNotes)
+    updateIndexes(updatedTrash)
+
+    setNotes(updatedNotes)
+    setTrash(updatedTrash)
+  }
+
+  const updateIndexes = (notes: Note[]): void => {
+    notes.forEach((note, index) => {
+      note.id = index
+    })
+  }
+
+  return { ...notesStore, createNote, removeNote, deleteNote, recoverNote }
 }

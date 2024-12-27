@@ -3,6 +3,7 @@ import { NoteDisplay } from './NoteDisplay'
 
 export function Notes () {
   const { notes, createNote } = useNotes()
+  const arrayOfNotes = Array.from(notes)
 
   const handleClick = (): void => {
     createNote()
@@ -19,10 +20,16 @@ export function Notes () {
         </button>
       </header>
 
-      <section className='px-[90px] w-full h-full grid grid-cols-5 grid-flow-row gap-4'>
-        {notes.map(note => (
-          <NoteDisplay key={note.id} note={note} />
-        ))}
+      <section className='px-[90px] w-full min-h-[80%] grid grid-cols-5 grid-flow-row gap-4 relative'>
+        {arrayOfNotes.length > 0 ? (
+          arrayOfNotes.map(note => (
+            <NoteDisplay key={note.id} note={note} type='notes' />
+          ))
+        ) : (
+          <div className='text-[#a1a1a1] p-[3%] text-[clamp(20px,10vw,40px)] w-[50%] h-full font-bold absolute'>
+            Any notes here...
+          </div>
+        )}
       </section>
     </main>
   )

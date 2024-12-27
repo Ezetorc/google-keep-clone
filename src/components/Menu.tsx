@@ -1,3 +1,4 @@
+import { NotesIcon, TrashIcon } from './Icons'
 import { MenuButton } from './MenuButton'
 
 export function Menu () {
@@ -7,10 +8,12 @@ export function Menu () {
       <MenuButton
         toSection='notes'
         label='Notes'
+        icon={<NotesIcon />}
       />
       <MenuButton
         toSection='trash'
         label='Trash'
+        icon={<TrashIcon />}
       />
     </aside>
   )

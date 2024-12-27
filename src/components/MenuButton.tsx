@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { useNotes } from '../hooks/useNotes'
 import { Section } from '../models/Section'
 import clsx from 'clsx'
@@ -5,9 +6,10 @@ import clsx from 'clsx'
 interface MenuButtonProps {
   label: string
   toSection: Section
+  icon: ReactNode
 }
 
-export function MenuButton ({ label, toSection }: MenuButtonProps) {
+export function MenuButton ({ label, toSection, icon }: MenuButtonProps) {
   const { setSection, section } = useNotes()
   const selected = toSection === section
 
@@ -23,9 +25,10 @@ export function MenuButton ({ label, toSection }: MenuButtonProps) {
           { 'bg-[#41331c]': selected === true },
           { 'bg-transparent': selected === false },
           { 'hover:bg-[#fff1]': selected === false }
-        ])} w-full h-[45px] text-left pl-[25%] content-center rounded-r-full`}
+        ])} w-full h-[45px] pl-[7%] flex items-center justify-start rounded-r-full gap-x-[15%]`}
       >
-        {label}
+        {icon}
+        <span className='font-semibold text-[clamp(10px,3vw,15px)]'>{label}</span>
       </button>
     </ul>
   )
